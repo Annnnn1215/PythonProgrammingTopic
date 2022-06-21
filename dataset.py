@@ -72,3 +72,53 @@ def get_transform(phase: str):
             ),
             ToTensorV2(),
         ])
+
+
+def TTA(phase: int, img_size: int):
+    if phase == 0:
+        return Compose([
+            A.Resize(height=img_size, width=img_size),
+            OneOf([A.RandomBrightnessContrast(brightness_limit=0.1, contrast_limit=0.1, p=1)]),
+            A.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225), max_pixel_value=255.0, p=1.0),
+            ToTensorV2(),
+        ])
+    if phase == 1:
+        return Compose([
+            A.Resize(height=img_size, width=img_size),
+            OneOf([A.RandomBrightnessContrast(brightness_limit=0.1, contrast_limit=0.1, p=1)]),
+            A.VerticalFlip(p=1),
+            A.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225), max_pixel_value=255.0, p=1.0),
+            ToTensorV2(),
+        ])
+    if phase == 2:
+        return Compose([
+            A.Resize(height=img_size, width=img_size),
+            OneOf([A.RandomBrightnessContrast(brightness_limit=0.1, contrast_limit=0.1, p=1)]),
+            A.HorizontalFlip(p=1),
+            A.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225), max_pixel_value=255.0, p=1.0),
+            ToTensorV2(),
+        ])
+    if phase == 3:
+        return Compose([
+            A.Resize(height=img_size, width=img_size),
+            OneOf([A.RandomBrightnessContrast(brightness_limit=0.1, contrast_limit=0.1, p=1)]),
+            A.VerticalFlip(p=1),
+            A.HorizontalFlip(p=1),
+            A.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225), max_pixel_value=255.0, p=1.0),
+            ToTensorV2(),
+        ])
+    if phase == 4:
+        return Compose([
+            A.Resize(height=img_size, width=img_size),
+            OneOf([A.RandomBrightnessContrast(brightness_limit=0.1, contrast_limit=0.1, p=1)]),
+            A.ShiftScaleRotate(
+                shift_limit=0.2,
+                scale_limit=0.2,
+                rotate_limit=20,
+                interpolation=cv2.INTER_LINEAR,
+                border_mode=cv2.BORDER_REFLECT_101,
+                p=1,
+            ),
+            A.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225), max_pixel_value=255.0, p=1.0),
+            ToTensorV2(),
+        ])
