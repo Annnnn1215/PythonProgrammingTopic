@@ -1,6 +1,6 @@
 # PythonProgrammingTopic
 <p>資料集要到 https://tbrain.trendmicro.com.tw/Competitions/Details/20 做下載</p>
-<br>
+
 Step-1 : 在CONFIG.py選擇要使用的timm預訓練模型，並使用train.py訓練模型。
 ```python
 model_name = 'tf_efficientnet_b0_ns'
