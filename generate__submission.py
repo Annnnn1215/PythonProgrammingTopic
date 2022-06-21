@@ -9,19 +9,19 @@ from dataset import OrchidDataset, get_transform
 from models import BuildModel
 
 
-init_seeds(CONFIG.seed)
+init_seeds(CONFIG.SEED)
 
 MODEL_PATH = [
-        "./logs_soft_label/tf_efficientnet_b1_ns/version_17/checkpoints/"
-        "fold=0-epoch=36-val_loss=0.6998-val_f1_score=0.8713.ckpt",
-        "./logs_soft_label/tf_efficientnet_b1_ns/version_17/checkpoints/"
-        "fold=1-epoch=29-val_loss=0.7227-val_f1_score=0.8340.ckpt",
-        "./logs_soft_label/tf_efficientnet_b1_ns/version_19/checkpoints/"
-        "fold=2-epoch=36-val_loss=0.7590-val_f1_score=0.8509.ckpt",
-        "./logs_soft_label/tf_efficientnet_b1_ns/version_19/checkpoints/"
-        "fold=3-epoch=32-val_loss=0.7646-val_f1_score=0.8399.ckpt",
-        "./logs_soft_label/tf_efficientnet_b1_ns/version_19/checkpoints/"
-        "fold=4-epoch=38-val_loss=0.7816-val_f1_score=0.8602.ckpt"
+        "./logs/tf_efficientnet_b0_ns/version_6/checkpoints/"
+        "fold=0-epoch=34-val_loss=0.8162-val_f1_score=0.8025-val_acc=0.8082.ckpt",
+        "./logs/tf_efficientnet_b0_ns/version_6/checkpoints/"
+        "fold=1-epoch=39-val_loss=0.6908-val_f1_score=0.8075-val_acc=0.8242.ckpt",
+        "./logs/tf_efficientnet_b0_ns/version_6/checkpoints/"
+        "fold=2-epoch=37-val_loss=0.8150-val_f1_score=0.7832-val_acc=0.7968.ckpt",
+        "./logs/tf_efficientnet_b0_ns/version_6/checkpoints/"
+        "fold=3-epoch=36-val_loss=0.7107-val_f1_score=0.8000-val_acc=0.8174.ckpt",
+        "./logs/tf_efficientnet_b0_ns/version_6/checkpoints/"
+        "fold=4-epoch=32-val_loss=0.8240-val_f1_score=0.7883-val_acc=0.8037.ckpt"
     ]
 
 # 預測資料的csv檔
@@ -35,7 +35,7 @@ model = BuildModel(model_name=CONFIG.model_name, pretrained=CONFIG.pretrained)
 
 submission = []
 
-for path in CONFIG.MODEL_PATH:
+for path in MODEL_PATH:
     model.load_state_dict(torch.load(path)["state_dict"])
     model.to("cuda")
     model.eval()

@@ -12,20 +12,25 @@ from models import BuildModel
 
 
 if __name__ == '__main__':
-    init_seeds(CONFIG.seed)
+    init_seeds(CONFIG.SEED)
     MODEL_PATH = [
-            "./logs/tf_efficientnet_b1_ns/version_8/checkpoints/fold=0-epoch=38-val_loss=0.6127-val_f1_score=0.8301.ckpt",
-            "./logs/tf_efficientnet_b1_ns/version_8/checkpoints/fold=1-epoch=38-val_loss=0.6716-val_f1_score=0.8166.ckpt",
-            "./logs/tf_efficientnet_b1_ns/version_8/checkpoints/fold=2-epoch=31-val_loss=0.7188-val_f1_score=0.8016.ckpt",
-            "./logs/tf_efficientnet_b1_ns/version_8/checkpoints/fold=3-epoch=28-val_loss=0.6972-val_f1_score=0.8325.ckpt",
-            "./logs/tf_efficientnet_b1_ns/version_8/checkpoints/fold=4-epoch=25-val_loss=0.6903-val_f1_score=0.8136.ckpt"
-        ]
+        "./logs/tf_efficientnet_b0_ns/version_6/checkpoints/"
+        "fold=0-epoch=34-val_loss=0.8162-val_f1_score=0.8025-val_acc=0.8082.ckpt",
+        "./logs/tf_efficientnet_b0_ns/version_6/checkpoints/"
+        "fold=1-epoch=39-val_loss=0.6908-val_f1_score=0.8075-val_acc=0.8242.ckpt",
+        "./logs/tf_efficientnet_b0_ns/version_6/checkpoints/"
+        "fold=2-epoch=37-val_loss=0.8150-val_f1_score=0.7832-val_acc=0.7968.ckpt",
+        "./logs/tf_efficientnet_b0_ns/version_6/checkpoints/"
+        "fold=3-epoch=36-val_loss=0.7107-val_f1_score=0.8000-val_acc=0.8174.ckpt",
+        "./logs/tf_efficientnet_b0_ns/version_6/checkpoints/"
+        "fold=4-epoch=32-val_loss=0.8240-val_f1_score=0.7883-val_acc=0.8037.ckpt"
+    ]
     df = pd.read_csv("./labels.csv")
     df["file_path"] = df["filename"].apply(lambda image: CONFIG.TRAIN_DIR + image)
 
     model = BuildModel(model_name=CONFIG.model_name, pretrained=CONFIG.pretrained)
 
-    skf = StratifiedKFold(n_splits=CONFIG.n_fold, shuffle=True, random_state=CONFIG.seed)
+    skf = StratifiedKFold(n_splits=CONFIG.n_fold, shuffle=True, random_state=CONFIG.SEED)
     train_data_cp = []
     for fold_i, (train_index, val_index) in enumerate(skf.split(df['filename'], df["category"])):
         train_data = df.iloc[train_index, :].reset_index(drop=True)
@@ -70,4 +75,4 @@ if __name__ == '__main__':
         train_data_cp.append(val_data_cp)
     df = df.drop(["file_path"], axis=1)
     soft_labels = df[["filename"]].merge(pd.concat(train_data_cp), how="left", on="filename")
-    soft_labels.to_csv("./submission_test/soft_label.csv", index=False)
+    soft_labels.to_csv("./soft_label.csv", index=False)
