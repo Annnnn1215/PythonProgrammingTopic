@@ -7,7 +7,7 @@ model_name = 'tf_efficientnet_b0_ns'
 ```
 Step-2 : 使用generate_soft_label_csv.py產生soft-label（要更改MODEL_PATH）。
 
-Step-3 : 在CONFIG.py加上soft-label檔案路徑，並且重新運行train.py訓練模型。
+Step-3 : 在CONFIG.py加上soft-label檔案路徑，並且運行train_soft_label.py訓練模型。
 ```python
 soft_labels_filename = "./soft_label.csv"
 ```
